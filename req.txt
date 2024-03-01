@@ -1,0 +1,15 @@
+cloudpickle~=2.2.1
+crcmod<2.0,>=1.7
+dill<0.3.2,>=0.3.1.1
+fastavro<2,>=0.23.6
+hdfs<3.0.0,>=2.1.0
+httplib2<0.23.0,>=0.8
+js2py<1,>=0.74
+jsonpickle<4.0.0,>=3.0.0
+objsize<0.8.0,>=0.6.1
+proto-plus==1.7.1
+pyarrow==3.0.0
+pymongo==3.8.0
+zstandard==0.18.0
+numpy==1.14.3
+protobuf==3.20.3
