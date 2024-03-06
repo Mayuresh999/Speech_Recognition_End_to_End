@@ -33,6 +33,7 @@ def get_data_splits(data_path, test_size=0.1, validation_size=0.1):
     # create splits
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size, random_state=42)
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=validation_size, random_state=42)
+    logging.info("Data splitted into required format")
 
     # convert inputs from 2D to 3D array
     x_train = x_train[..., np.newaxis]
@@ -84,6 +85,7 @@ def main():
 
     # train the network
     model.fit(x_train, y_train, epochs=EPOCHS, batch_size=BATCH_SIZE, validation_data=(x_val, y_val))
+    logging.info("Model training done")
 
     # evaluate the network
     test_error, test_accuracy = model.evaluate(x_test, y_test)
@@ -91,7 +93,10 @@ def main():
 
     # save the model
     model.save(SAVED_MODEL_PATH)
-    logging.info("model saved")
+    logging.info("Model saved")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        raise CustomException(e,sys)

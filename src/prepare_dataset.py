@@ -1,9 +1,11 @@
 import librosa
 import os
 import sys
+from tqdm import tqdm
 import json
-from src.logger import logging
-from src.exception import CustomException
+
+from logger import logging
+from exception import CustomException
 
 DATASET_PATH = os.path.join("data", "data")
 JSON_PATH = os.path.join("data", "data.json")
@@ -27,10 +29,9 @@ def prepare_dataset(dataset_path, json_path, n_mfcc = 13, hop_length = 512, n_ff
                 # update mappings
                 category = root.split("\\")[-1]
                 data["mappings"].append(category)
-                print(f"Processing dataset with category {category}")
                 # loop and extract MFCCs
 
-                for f in files:
+                for f in tqdm(files):
 
                     # get file name
                     file_path = os.path.join(root, f)
@@ -49,7 +50,6 @@ def prepare_dataset(dataset_path, json_path, n_mfcc = 13, hop_length = 512, n_ff
                         data["labels"].append(i-1)
                         data["MFCCs"].append(MFCCs.T.tolist())
                         data["files"].append(file_path)
-                        print(f"file_path {file_path}, labels {i-1}")
         except Exception as e:
             raise CustomException(e,sys)
 

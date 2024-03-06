@@ -1,12 +1,13 @@
+import sys, os
 import keras
 from exception import CustomException
 from logger import logging
-import sys, os
 import numpy as np
 import librosa
 
+current_directory = os.path.dirname(os.path.abspath(__file__))
 
-MODEL_PATH = os.path.join('assets', "model.h5")
+MODEL_PATH = os.path.join(current_directory,"model.h5")
 NUM_SAMPLES_TO_CONSIDER = 22050
 
 class _Keyword_Spotting_Service:
@@ -85,8 +86,10 @@ def Keyword_Spotting_Service():
 
 
 if __name__ == "__main__":
-    kss = Keyword_Spotting_Service()
-    res1 = kss.predict(r"data\data\wow\0a7c2a8d_nohash_1.wav")
-    res2 = kss.predict(r"C:\Users\Admin\Downloads\Recording.wav")
+    try:
+        kss = Keyword_Spotting_Service()
+        res1 = kss.predict(r"test\nine.wav")
 
-    print(f"results are: {res1}, {res2}")
+        print(f"results are: {res1}")
+    except Exception as e:
+        raise CustomException(e,sys)

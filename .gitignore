@@ -121,6 +121,9 @@ celerybeat.pid
 
 # Environments
 .assets/
+.exp/
+exp/
+.kss_venv/
 .data/
 data/
 .data
