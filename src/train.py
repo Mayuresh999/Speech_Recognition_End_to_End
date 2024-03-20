@@ -2,16 +2,20 @@ import os
 import sys
 import json
 import numpy as np
-import keras
+# import keras
 # import tensorflow.keras as keras
 from sklearn.model_selection import train_test_split
 from exception import CustomException
 from logger import logging
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from keras.models import Sequential
+from keras import regularizers
+from keras.optimizers import Adam
 
 
 DATA_PATH = os.path.join("data", "data.json")
-LEARNING_RATE = 0.0001
-EPOCHS = 10
+LEARNING_RATE = 0.001
+EPOCHS = 50
 BATCH_SIZE = 64
 SAVED_MODEL_PATH = os.path.join("assets", "model.h5")
 NUM_KEYWORDS = 30
@@ -43,34 +47,66 @@ def get_data_splits(data_path, test_size=0.1, validation_size=0.1):
     return x_train, x_val, x_test, y_train, y_val, y_test
 
 def build_model(input_shape, learning_rate, error="sparse_categorical_crossentropy"):
-    model = keras.Sequential()
+    # model = keras.Sequential()
 
-    model.add(keras.layers.Conv2D(64, (3,3), activation="relu", input_shape=input_shape,
-              kernel_regularizer=keras.regularizers.l2(0.001)))
-    model.add(keras.layers.BatchNormalization())
-    model.add(keras.layers.MaxPool2D((3,3), strides=(2,2), padding='same'))
+    # model.add(keras.layers.Conv2D(64, (3,3), activation="relu", input_shape=input_shape,
+    #           kernel_regularizer=keras.regularizers.l2(0.001)))
+    # model.add(keras.layers.BatchNormalization())
+    # model.add(keras.layers.MaxPool2D((3,3), strides=(2,2), padding='same'))
 
-    model.add(keras.layers.Conv2D(32, (3,3), activation="relu",
-              kernel_regularizer=keras.regularizers.l2(0.001)))
-    model.add(keras.layers.BatchNormalization())
-    model.add(keras.layers.MaxPool2D((3,3), strides=(2,2), padding='same'))
+    # model.add(keras.layers.Conv2D(32, (3,3), activation="relu",
+    #           kernel_regularizer=keras.regularizers.l2(0.001)))
+    # model.add(keras.layers.BatchNormalization())
+    # model.add(keras.layers.MaxPool2D((3,3), strides=(2,2), padding='same'))
 
-    model.add(keras.layers.Conv2D(32, (2,2), activation="relu", 
-              kernel_regularizer=keras.regularizers.l2(0.001)))
-    model.add(keras.layers.BatchNormalization())
-    model.add(keras.layers.MaxPool2D((2,2), strides=(2,2), padding='same'))
+    # # model.add(keras.layers.Conv2D(32, (3,3), activation="relu", 
+    # #           kernel_regularizer=keras.regularizers.l2(0.001)))
+    # # model.add(keras.layers.BatchNormalization())
+    # # model.add(keras.layers.MaxPool2D((2,2), strides=(2,2), padding='same'))
 
-    model.add(keras.layers.Flatten())
-    model.add(keras.layers.Dense(64, activation='relu'))
-    model.add(keras.layers.Dropout(0.3))
+    # model.add(keras.layers.Conv2D(32, (2,2), activation="relu", 
+    #           kernel_regularizer=keras.regularizers.l2(0.001)))
+    # model.add(keras.layers.BatchNormalization())
+    # model.add(keras.layers.MaxPool2D((2,2), strides=(2,2), padding='same'))
 
-    model.add(keras.layers.Dense(NUM_KEYWORDS, activation='softmax'))
+    # model.add(keras.layers.Flatten())
+    # model.add(keras.layers.Dense(64, activation='relu'))
+    # model.add(keras.layers.Dropout(0.3))
 
-    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
-    model.compile(optimizer=optimizer, loss=error, metrics=['accuracy'])
+    # model.add(keras.layers.Dense(NUM_KEYWORDS, activation='softmax'))
+
+    # optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
+    # model.compile(optimizer=optimizer, loss=error, metrics=['accuracy'])
+
+    # model.summary()
+
+
+    model = Sequential()
+
+    model.add(Conv2D(64, (3,3), activation="relu", input_shape=input_shape,
+            kernel_regularizer=regularizers.l2(0.001)))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((3,3), strides=(2,2), padding='same'))
+
+    model.add(Conv2D(64, (3,3), activation="relu", kernel_regularizer=regularizers.l2(0.001)))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((3,3), strides=(2,2), padding='same'))
+
+    model.add(Conv2D(32, (2,2), activation="relu", kernel_regularizer=regularizers.l2(0.001)))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2,2), strides=(2,2), padding='same'))
+
+    model.add(Flatten())
+
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(NUM_KEYWORDS, activation='softmax'))
+
+    optimizer = Adam(learning_rate=0.0001) # Adjusted learning rate
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     model.summary()
-
     return model
 
 def main():

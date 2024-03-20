@@ -1,0 +1,125 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio File Upload</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+        #file-input {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #file-label {
+            cursor: pointer;
+        }
+        #file-info {
+            font-style: italic;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Audio File (Max 5MB)</h1>
+    <label for="file-input" id="file-label">
+        Choose an audio file (MP3, WAV, etc.)
+    </label>
+    <input type="file" id="file-input" accept="audio/*">
+    <p id="file-info"></p>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const fileInfo = document.getElementById('file-info');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                // Check file size (5MB limit)
+                if (file.size > 5 * 1024 * 1024) {
+                    fileInfo.textContent = 'Error: File size exceeds 5MB limit.';
+                    fileInput.value = ''; // Clear the file selection
+                    return;
+                }
+
+                // Display file name and size
+                fileInfo.textContent = `Selected: ${file.name} (${file.size} bytes)`;
+            } else {
+                fileInfo.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Audio File (Max 5MB)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+    #file-input {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #file-label {
+      cursor: pointer;
+    }
+    #file-info {
+      font-style: italic;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Audio File (Max 5MB)</h1>
+  <form id="upload-form" method="POST" enctype="multipart/form-data">
+    <label for="file-input" id="file-label">
+      Choose an audio file (MP3, WAV, etc.)
+    </label>
+    <input type="file" id="file-input" name="audio_file" accept="audio/*">
+    <p id="file-info"></p>
+    <button type="submit">Upload and Process</button>
+  </form>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const fileInfo = document.getElementById('file-info');
+    const uploadForm = document.getElementById('upload-form');
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+
+      if (file) {
+        // Check file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+          fileInfo.textContent = 'Error: File size exceeds 5MB limit.';
+          fileInput.value = ''; // Clear the file selection
+          return;
+        }
+
+        // Display file name and size
+        fileInfo.textContent = `Selected: ${file.name} (${file.size} bytes)`;
+      } else {
+        fileInfo.textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>
