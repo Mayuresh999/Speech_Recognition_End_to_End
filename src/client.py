@@ -3,16 +3,11 @@ import requests
 from logger import logging
 from exception import CustomException
 
-
-# URL = "http://127.0.0.1:5000/predict"
 URL = "http://127.0.0.1/predict"
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-# TEST_AUDIO_FILE_PATH = os.path.join(current_directory,"test","nine.wav")
-# TEST_AUDIO_FILE_PATH = os.path.join("test", "nine.wav")
-TEST_AUDIO_FILE_PATH = r"C:\mayuresh\speech_recognition\Speech_Recognition_End_to_End\src\test\nine.wav"
-
+TEST_AUDIO_FILE_PATH = os.path.join(current_directory,"test","Bird_real.wav")
 
 if __name__ == "__main__":
     try: 

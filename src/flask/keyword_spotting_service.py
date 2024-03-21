@@ -8,6 +8,7 @@ import librosa
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATH = os.path.join(current_directory,"model.h5")
+
 NUM_SAMPLES_TO_CONSIDER = 22050
 
 class _Keyword_Spotting_Service:
